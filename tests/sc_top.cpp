@@ -1,4 +1,4 @@
-#include "sc_top.h"
+#include "include/sc_top.h"
 
 SC_MODULE_EXPORT(sc_top);
 

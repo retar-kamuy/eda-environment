@@ -1,0 +1,6 @@
+{
+    "cpplint.filters": [
+        "-legal/copyright"
+    ],
+    "cpplint.lintMode": "workspace"
+}
