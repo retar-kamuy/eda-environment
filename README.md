@@ -18,7 +18,7 @@ rm -rf objdir
 # Run Verilator
 
 ```bash
-verilator --Mdir obj_dir --sc --exe -Wall sc_main.cpp our.sv
+verilator --Mdir obj_dir --sc --exe -Wall sc_main.cpp src/our.sv
 # or verilator --Mdir obj_dir --sc --exe --build -j 0 -Wall sc_main.cpp our.sv
 
 make -j -C obj_dir -f Vour.mk Vour

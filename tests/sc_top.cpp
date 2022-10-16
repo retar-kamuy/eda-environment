@@ -1,6 +1,8 @@
-#include "include/sc_top.h"
+#include "sc_top.h"
 
-SC_MODULE_EXPORT(sc_top);
+#ifdef MODELSIM
+    SC_MODULE_EXPORT(sc_top);
+#endif
 
 int sc_main(int argc, char* argv[]) {
     sc_top* u_sc_top = new sc_top("sc_top");
