@@ -49,5 +49,5 @@ sccom -I . -I tests/include -g tests/test_half_adder.cpp
 sccom -link
 
 # Questa run simulation
-vsim -c sc_top -wlf vsim.wlf -l vsim.log -do "add wave -r /*; run -all; quit"
+vsim -c test_half_adder -wlf vsim.wlf -l vsim.log -do "add wave -r /*; run -all; quit"
 ```

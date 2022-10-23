@@ -18,7 +18,8 @@ class test_half_adder:
     SC_HAS_PROCESS(test_half_adder);
     explicit test_half_adder(sc_core::sc_module_name name):
         clk("clk", 10, SC_NS, 0.5, 3, SC_NS, true)  {
-        u_half_adder = new Vhalf_adder{"top", "Vhalf_adder"};
+        //u_half_adder = new Vhalf_adder{"half_adder", "Vhalf_adder", 0, NULL};
+        u_half_adder = new Vhalf_adder{"half_adder", "Vhalf_adder"};
         u_half_adder->clk(clk);
         u_half_adder->a(a);
         u_half_adder->b(b);
