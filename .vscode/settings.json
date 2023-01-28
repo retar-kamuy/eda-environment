@@ -2,5 +2,7 @@
     "cpplint.filters": [
         "-legal/copyright"
     ],
-    "cpplint.lintMode": "workspace"
+    "cpplint.lintMode": "workspace",
+    "verilog.linting.linter": "verilator",
+    "verilog.ctags.path": "/usr/bin/ctags",
 }
