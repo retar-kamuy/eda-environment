@@ -1,6 +1,7 @@
 #ifndef TEST_AXI4_LITE_HPP_
 #define TEST_AXI4_LITE_HPP_
 
+#include <systemc.h>
 #include "Vaxi4_lite_master_read_state.h"
 
 class test_axi4_lite:
@@ -23,7 +24,7 @@ class test_axi4_lite:
     SC_HAS_PROCESS(test_axi4_lite);
     explicit test_axi4_lite(sc_core::sc_module_name name):
         ACLK("ACLK", 10, SC_NS) {
-            //u_half_adder = new Vhalf_adder{"half_adder", "Vhalf_adder", 0, NULL};
+            // u_half_adder = new Vhalf_adder{"half_adder", "Vhalf_adder", 0, NULL};
             dut = new Vaxi4_lite_master_read_state("Vaxi4_lite_master_read_state");
 
             dut->ACLK(ACLK);
@@ -47,7 +48,7 @@ class test_axi4_lite:
     void thread();
     void clock_method() {
         aclk_posedge_event.notify();
-    };
+    }
     void arready_method();
     void rvalid_method();
 

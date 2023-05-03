@@ -4,10 +4,12 @@
             "name": "Windows",
             "includePath": [
                 "${workspaceFolder}/**",
+                "C:\\llvm-project\\libcxx\\include",
+                "C:\\verilator\\include",
                 "C:\\systemc\\src"
             ],
             "defines": [],
-            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-clang-x64"

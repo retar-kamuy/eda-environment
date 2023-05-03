@@ -17,7 +17,7 @@ int sc_main(int argc, char** argv) {
     // If verilator was invoked with --trace argument,
     // and if at run time passed the +trace argument, turn on tracing
     const char* flag_vcd = Verilated::commandArgsPlusMatch("trace");
-    if (flag_vcd && 0==strcmp(flag_vcd, "+trace")) {
+    if (flag_vcd && 0 == strcmp(flag_vcd, "+trace")) {
         std::cout << "VCD dump on" << std::endl;
         Verilated::traceEverOn(true);
         tfp = new VerilatedVcdSc;

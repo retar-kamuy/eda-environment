@@ -11,8 +11,5 @@
         "algorithm": "cpp",
         "cmath": "cpp"
     },
-    "cpplint.filters": [
-        "-legal/copyright"
-    ],
-    "cpplint.lintMode": "workspace"
+    "cpplint.cpplintPath": "C:\\Python311\\Scripts\\cpplint.exe"
 }
