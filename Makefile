@@ -1,23 +1,48 @@
-VERSION = v5.002
-INTALL_PATH = /opt/verilator-$(VERSION)
+SRC			 = src/axi4_lite_master_read_state.sv
+TB			 = tb/tb_top.sv tb/clk_rst_gen.sv
+SC_TB		 = sc_main.cpp test_axi4_lite.cpp
+INCDIR		 = +incdir+tb
 
-clone:
-	git clone https://github.com/verilator/verilator.git
+BUILD_DIR	 = work
+WLF			 = vsim.wlf
+TOP			 = $(BUILD_DIR).tb_top
+DUT			 = axi4_lite_master_read_state
 
-checkout: clone
-	cd verilator
-	git pull
-	git checkout $(VERSION)
+VLOG_FLAGS	 = -work $(BUILD_DIR) -l vlog.log
+VSIM_FLAGS	 = -work $(BUILD_DIR) -l vsim.log
+VSIM_FLAGS	+= -wlf $(WLF) -do "add wave -r /*; run -all; quit"
 
-configure: checkout
-	autoconf
-	./configure --prefix=$(INTALL_PATH)
+VERILATOR_FLAGS	 = --sc --exe
+VERILATOR_FLAGS	+= -Wno-lint -Wall
+VERILATOR_FLAGS	+= --trace
+VERILATOR_FLAGS	+= --top-module $(DUT)
+VERILATOR_FLAGS	+= --Mdir $(BUILD_DIR)
 
-make: configure
-	make -j `nproc`
+SYSTEMC_HOME	 = /opt/systemc-2.3.3
+SYSTEMC_INCLUDE	 = $(SYSTEMC_HOME)/include
+SYSTEMC_LIBDIR	 = $(SYSTEMC_HOME)/lib-linux64
 
-test: make
-	make test
+$(BUILD_DIR):
+	vlib $(BUILD_DIR)
+	vmap $(BUILD_DIR) $(BUILD_DIR)
 
-install: test
-	make install
+build: $(SRC) $(TB)
+	vlog $(INCDIR) $(VLOG_FLAGS) $^
+
+run: build
+	vsim -c $(VSIM_FLAGS) $(TOP)
+
+testbench_verilator: $(SRC) $(SC_TB)
+	verilator $(VERILATOR_FLAGS) -I$(SYSTEMC_INCLUDE) $(SRC) $(SC_TB)
+	$(MAKE) -j -C $(BUILD_DIR) -f V$(DUT).mk V$(DUT)
+	cp $(BUILD_DIR)/V$(DUT) $@
+
+test_verilator: testbench_verilator
+	./$<
+
+test_verilator_vcd: testbench_verilator
+	./$< +trace
+
+clean:
+#	del /q work *.log *.wlf
+	rm -rf work *.log *.wlf *.vcd testbench_verilator

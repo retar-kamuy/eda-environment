@@ -1,0 +1,12 @@
+{signal: [
+  {"name": "ACLK", "wave": "p.....|..."},
+  {"name": "LOCAL_ENA", "wave": "0.10..|..."},
+  {"name": "LOCAL_WSTB", "wave": "x.3..x|...", "data": ["0xF"]},
+  {"name": "usr_write_req", "wave": "0.10..|..."},
+  {"name": "state", "wave": "x.345x|..x", "data": ["Idle", "Write", "Ack"]},
+  {"name": "AWADDR", "wave": "x.3..x|..x", "data": ["0x3000"]},
+  {"name": "AWVALID", "wave": "0..1.0|..."},
+  {"name": "AWREADY", "wave": "0...10|..."},
+  {"name": "BVALID", "wave": "0...10|..."},
+  {"name": "BREADY", "wave": "0..1.0|..."}
+]}

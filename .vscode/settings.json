@@ -1,8 +1,18 @@
 {
+    "verilog.linting.linter": "slang",
+    "verilog.linting.verilator.arguments": "--timing -Wall -f filelist.f",
+    "verilog.linting.slang.arguments": "",
+    "verilog.linting.path": "/opt/verilator-v5.002/bin/",
+    "verilog.linting.verilator.runAtFileLocation": false,
+    "verilog.linting.slang.useWSL": true,
+    "verilog.ctags.path": "/usr/bin/ctags",
+    "files.associations": {
+        "*.jison": "bnf",
+        "algorithm": "cpp",
+        "cmath": "cpp"
+    },
     "cpplint.filters": [
         "-legal/copyright"
     ],
-    "cpplint.lintMode": "workspace",
-    "verilog.linting.linter": "verilator",
-    "verilog.ctags.path": "/usr/bin/ctags",
+    "cpplint.lintMode": "workspace"
 }

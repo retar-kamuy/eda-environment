@@ -1,4 +1,15 @@
-*.wlf
-V*.h
 work/
+*.log
+
+# ctags
+tags
+
+# Modelsim
+*.wlf
 transcript
+modelsim.ini
+
+# Verilator
+*.vcd
+V*.h
+testbench_verilator
