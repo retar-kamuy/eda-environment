@@ -1,6 +1,8 @@
-#include "test_axi4_lite.hpp"
+#include "test_axil.hpp"
 
-void test_axi4_lite::thread(void)   {
+SC_MODULE_EXPORT(test_axil);
+
+void test_axil::thread(void)   {
     ARESETn = 0;
 
     wait(5 * ACLK.period());
@@ -15,7 +17,7 @@ void test_axi4_lite::thread(void)   {
     sc_stop();
 }
 
-void test_axi4_lite::arready_method(void) {
+void test_axil::arready_method(void) {
     next_trigger(aclk_posedge_event);
     if (ARREADY == 1 && ARVALID == 1) {
         ARREADY = 0;
@@ -26,7 +28,7 @@ void test_axi4_lite::arready_method(void) {
     }
 }
 
-void test_axi4_lite::rvalid_method(void) {
+void test_axil::rvalid_method(void) {
     next_trigger(aclk_posedge_event);
     if (RVALID == 1 && RREADY == 1) {
         RVALID = 0;
