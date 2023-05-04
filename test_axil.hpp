@@ -1,11 +1,11 @@
-#ifndef TEST_AXI4_LITE_HPP_
-#define TEST_AXI4_LITE_HPP_
+#ifndef TEST_AXIL_HPP_
+#define TEST_AXIL_HPP_
 
 #include <systemc.h>
-#include "Vaxi4_lite_master_read_state.h"
+#include "Vaxilm_rd_ch.h"
 
-class test_axi4_lite:
-    public sc_core::sc_module   {
+class test_axil:
+    public sc_core::sc_module {
  public:
     sc_clock ACLK;
 
@@ -15,17 +15,25 @@ class test_axi4_lite:
     sc_signal<bool> RVALID;
     sc_signal<bool> RREADY;
     sc_signal<bool> USR_ENA;
+#ifdef VERILATOR
     sc_signal<uint32_t> USR_WSTB;
+#else
+    sc_signal<sc_uint<4>> USR_WSTB;
+#endif  // VERILATOR
 
-    Vaxi4_lite_master_read_state *dut;
+    Vaxilm_rd_ch *dut;
 
     sc_event aclk_posedge_event;
 
-    SC_HAS_PROCESS(test_axi4_lite);
-    explicit test_axi4_lite(sc_core::sc_module_name name):
+    SC_HAS_PROCESS(test_axil);
+    explicit test_axil(sc_core::sc_module_name name):
         ACLK("ACLK", 10, SC_NS) {
             // u_half_adder = new Vhalf_adder{"half_adder", "Vhalf_adder", 0, NULL};
-            dut = new Vaxi4_lite_master_read_state("Vaxi4_lite_master_read_state");
+#ifdef VERILATOR
+            dut = new Vaxilm_rd_ch("Vaxilm_rd_ch");
+#else
+            dut = new Vaxilm_rd_ch{"top", "Vaxilm_rd_ch"};
+#endif  // VERILATOR
 
             dut->ACLK(ACLK);
             dut->ARESETn(ARESETn);
@@ -52,9 +60,12 @@ class test_axi4_lite:
     void arready_method();
     void rvalid_method();
 
-    ~test_axi4_lite() {
+    ~test_axil() {
+#ifdef VERILATOR
+        dut->final();
+#endif  // VERILATOR
         delete dut;
     }
 };
 
-#endif  // TEST_AXI4_LITE_HPP_
+#endif  // TEST_AXIL_HPP_
