@@ -1,4 +1,8 @@
-module axi4_lite_master_read_state (
+`ifdef VERILATOR
+module axilm_rd_ch (
+`else
+module Vaxilm_rd_ch (
+`endif
     input                   ARESETn,
     input                   ACLK,
     // Read Address Channel
@@ -13,9 +17,9 @@ module axi4_lite_master_read_state (
 );
     enum logic [1:0] {
         IDLE            = 0,
-        WAIT_ARREADY    = 1,
-        ASSERT_RREADY   = 2,
-        WAIT_RVALID     = 3
+        ARREADY_WAIT    = 1,
+        RREADY_ASSERT   = 2,
+        RVALID_WAIT     = 3
     } state;
 
     logic usr_read_req;
@@ -39,15 +43,15 @@ module axi4_lite_master_read_state (
                         ARVALID <= 1'b0;
                     RREADY <= 1'b0;
                 end
-                WAIT_ARREADY:
+                ARREADY_WAIT:
                     if (assert_arready) begin
                         ARVALID <= 1'b0;
                         RREADY <= 1'b1;
                     end
-                ASSERT_RREADY:
+                RREADY_ASSERT:
                     if (assert_rvalid)
                         RREADY <= 1'b0;
-                WAIT_RVALID:
+                RVALID_WAIT:
                     if (assert_rvalid)
                         RREADY <= 1'b0;
             endcase
@@ -60,18 +64,18 @@ module axi4_lite_master_read_state (
                 IDLE:
                     if (usr_read_req)
                         if (ARREADY)
-                            state <= ASSERT_RREADY;
+                            state <= RREADY_ASSERT;
                         else
-                            state <= WAIT_ARREADY;
-                WAIT_ARREADY:
+                            state <= ARREADY_WAIT;
+                ARREADY_WAIT:
                     if (assert_arready)
-                        state <= ASSERT_RREADY;
-                ASSERT_RREADY:
+                        state <= RREADY_ASSERT;
+                RREADY_ASSERT:
                     if (RVALID)
                         state <= IDLE;
                     else
-                        state <= WAIT_RVALID;
-                WAIT_RVALID:
+                        state <= RVALID_WAIT;
+                RVALID_WAIT:
                     if (assert_rvalid)
                         state <= IDLE;
             endcase
