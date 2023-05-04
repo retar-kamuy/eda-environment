@@ -1,14 +1,14 @@
 #include <systemc.h>
-#include "Vaxi4_lite_master_read_state.h"
+#include "Vaxilm_rd_ch.h"
 #include "verilated_vcd_sc.h"
-#include "test_axi4_lite.hpp"
+#include "test_axil.hpp"
 
 int sc_main(int argc, char** argv) {
     printf("Built with %s %s.\n", Verilated::productName(), Verilated::productVersion());
     printf("Recommended: Verilator 4.0 or later.\n");
 
     Verilated::commandArgs(argc, argv);
-    test_axi4_lite* top = new test_axi4_lite("top");
+    test_axi4_lite* top = new test_axil("top");
 
     sc_start(0, SC_NS);
 
@@ -32,7 +32,7 @@ int sc_main(int argc, char** argv) {
         tfp->close();
         tfp = NULL;
     }
-    top->dut->final();
+    // top->dut->final();
     delete top;
     return 0;
 }

@@ -1,4 +1,4 @@
-SRC			 = src/axi4_lite_master_read_state.sv
+SRC			 = src/axilm_rd_ch.sv
 TB			 = tb/tb_top.sv tb/clk_rst_gen.sv
 SC_TB		 = sc_main.cpp test_axi4_lite.cpp
 INCDIR		 = +incdir+tb
@@ -6,7 +6,7 @@ INCDIR		 = +incdir+tb
 BUILD_DIR	 = work
 WLF			 = vsim.wlf
 TOP			 = $(BUILD_DIR).tb_top
-DUT			 = axi4_lite_master_read_state
+DUT			 = axilm_rd_ch
 
 VLOG_FLAGS	 = -work $(BUILD_DIR) -l vlog.log
 VSIM_FLAGS	 = -work $(BUILD_DIR) -l vsim.log
@@ -42,6 +42,14 @@ test_verilator: testbench_verilator
 
 test_verilator_vcd: testbench_verilator
 	./$< +trace
+
+test_questa:
+	vlib $(BUILD_DIR)
+	vmap $(BUILD_DIR) $(BUILD_DIR)
+	vlog -work $(BUILD_DIR) -l vlog.log -sv src/axilm_rd_ch.sv
+	scgenmod -bool -sc_uint Vaxilm_rd_ch > Vaxilm_rd_ch.h
+	sccom -g test_axil.cpp
+	sccom -link
 
 clean:
 #	del /q work *.log *.wlf
