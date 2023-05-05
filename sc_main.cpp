@@ -8,7 +8,7 @@ int sc_main(int argc, char** argv) {
     printf("Recommended: Verilator 4.0 or later.\n");
 
     Verilated::commandArgs(argc, argv);
-    test_axi4_lite* top = new test_axil("top");
+    test_axil* top = new test_axil("top");
 
     sc_start(0, SC_NS);
 
@@ -32,7 +32,6 @@ int sc_main(int argc, char** argv) {
         tfp->close();
         tfp = NULL;
     }
-    // top->dut->final();
     delete top;
     return 0;
 }

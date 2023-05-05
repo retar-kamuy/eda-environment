@@ -15,7 +15,7 @@ class test_axil:
     sc_signal<bool> RVALID;
     sc_signal<bool> RREADY;
     sc_signal<bool> USR_ENA;
-#ifdef VERILATOR
+#ifndef MTI_SYSTEMC
     sc_signal<uint32_t> USR_WSTB;
 #else
     sc_signal<sc_uint<4>> USR_WSTB;
@@ -28,7 +28,7 @@ class test_axil:
     SC_HAS_PROCESS(test_axil);
     explicit test_axil(sc_core::sc_module_name name):
         ACLK("ACLK", 10, SC_NS) {
-#ifdef VERILATOR
+#ifndef MTI_SYSTEMC
         dut = new Vaxilm_rd_ch("Vaxilm_rd_ch");
 #else
         dut = new Vaxilm_rd_ch{"top", "Vaxilm_rd_ch"};
@@ -60,7 +60,7 @@ class test_axil:
     void rvalid_method();
 
     ~test_axil() {
-#ifdef VERILATOR
+#ifndef MTI_SYSTEMC
         dut->final();
 #endif  // VERILATOR
         delete dut;

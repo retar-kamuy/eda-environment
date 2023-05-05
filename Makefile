@@ -1,6 +1,6 @@
 SRC			 = src/axilm_rd_ch.sv
 TB			 = tb/tb_top.sv tb/clk_rst_gen.sv
-SC_TB		 = sc_main.cpp test_axi4_lite.cpp
+SC_TB		 = sc_main.cpp test_axil.cpp
 INCDIR		 = +incdir+tb
 
 BUILD_DIR	 = work
@@ -21,6 +21,8 @@ VERILATOR_FLAGS	+= --Mdir $(BUILD_DIR)
 SYSTEMC_HOME	 = /opt/systemc-2.3.3
 SYSTEMC_INCLUDE	 = $(SYSTEMC_HOME)/include
 SYSTEMC_LIBDIR	 = $(SYSTEMC_HOME)/lib-linux64
+
+SCGEN_TOP = axilm_rd_ch
 
 $(BUILD_DIR):
 	vlib $(BUILD_DIR)
@@ -43,11 +45,13 @@ test_verilator: testbench_verilator
 test_verilator_vcd: testbench_verilator
 	./$< +trace
 
-test_questa:
+V$(SCGEN_TOP).h: $(SRC)
 	vlib $(BUILD_DIR)
 	vmap $(BUILD_DIR) $(BUILD_DIR)
-	vlog -work $(BUILD_DIR) -l vlog.log -sv src/axilm_rd_ch.sv
-	scgenmod -bool -sc_uint Vaxilm_rd_ch > Vaxilm_rd_ch.h
+	vlog -work $(BUILD_DIR) -l vlog.log -sv $^
+	scgenmod -bool -sc_uint V$(SCGEN_TOP) > $@
+
+test_questa:
 	sccom -g test_axil.cpp
 	sccom -link
 	vopt +acc test_axil -work $(BUILD_DIR) -o optdesign

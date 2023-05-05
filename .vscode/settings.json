@@ -11,5 +11,5 @@
         "algorithm": "cpp",
         "cmath": "cpp"
     },
-    "cpplint.cpplintPath": "C:\\Python311\\Scripts\\cpplint.exe"
+    "cpplint.cpplintPath": "/home/ubuntu/.local/bin/cpplint"
 }
