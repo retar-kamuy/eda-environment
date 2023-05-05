@@ -50,6 +50,8 @@ test_questa:
 	scgenmod -bool -sc_uint Vaxilm_rd_ch > Vaxilm_rd_ch.h
 	sccom -g test_axil.cpp
 	sccom -link
+	vopt +acc test_axil -work $(BUILD_DIR) -o optdesign
+	vsim -c -wlf vsim.wlf -l vsim.log -do "add wave -r *; run -all; quit" $(BUILD_DIR).optdesign
 
 clean:
 #	del /q work *.log *.wlf

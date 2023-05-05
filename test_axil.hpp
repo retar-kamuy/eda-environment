@@ -28,30 +28,29 @@ class test_axil:
     SC_HAS_PROCESS(test_axil);
     explicit test_axil(sc_core::sc_module_name name):
         ACLK("ACLK", 10, SC_NS) {
-            // u_half_adder = new Vhalf_adder{"half_adder", "Vhalf_adder", 0, NULL};
 #ifdef VERILATOR
-            dut = new Vaxilm_rd_ch("Vaxilm_rd_ch");
+        dut = new Vaxilm_rd_ch("Vaxilm_rd_ch");
 #else
-            dut = new Vaxilm_rd_ch{"top", "Vaxilm_rd_ch"};
+        dut = new Vaxilm_rd_ch{"top", "Vaxilm_rd_ch"};
 #endif  // VERILATOR
 
-            dut->ACLK(ACLK);
-            dut->ARESETn(ARESETn);
-            dut->ARVALID(ARVALID);
-            dut->ARREADY(ARREADY);
-            dut->RVALID(RVALID);
-            dut->RREADY(RREADY);
-            dut->USR_ENA(USR_ENA);
-            dut->USR_WSTB(USR_WSTB);
+        dut->ACLK(ACLK);
+        dut->ARESETn(ARESETn);
+        dut->ARVALID(ARVALID);
+        dut->ARREADY(ARREADY);
+        dut->RVALID(RVALID);
+        dut->RREADY(RREADY);
+        dut->USR_ENA(USR_ENA);
+        dut->USR_WSTB(USR_WSTB);
 
-            SC_THREAD(thread);
-            SC_METHOD(clock_method);
-                sensitive << ACLK.posedge_event();
-            SC_METHOD(arready_method);
-                sensitive << ARVALID.posedge_event();
-            SC_METHOD(rvalid_method);
-                sensitive << RREADY.posedge_event();
-        }
+        SC_THREAD(thread);
+        SC_METHOD(clock_method);
+            sensitive << ACLK.posedge_event();
+        SC_METHOD(arready_method);
+            sensitive << ARVALID.posedge_event();
+        SC_METHOD(rvalid_method);
+            sensitive << RREADY.posedge_event();
+    }
 
     void thread();
     void clock_method() {

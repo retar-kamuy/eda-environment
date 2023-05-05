@@ -1,6 +1,8 @@
 #include "test_axil.hpp"
 
+#ifdef MTI_SYSTEMC
 SC_MODULE_EXPORT(test_axil);
+#endif  // MTI_SYSTEMC
 
 void test_axil::thread(void)   {
     ARESETn = 0;
@@ -9,8 +11,12 @@ void test_axil::thread(void)   {
     ARESETn = 1;
 
     wait(5 * ACLK.period());
+
+    wait(aclk_posedge_event);
+    wait(1, SC_NS);
     USR_ENA = 1;
-    wait(ACLK.period());
+    wait(aclk_posedge_event);
+    wait(1, SC_NS);
     USR_ENA = 0;
 
     wait(10 * ACLK.period());
