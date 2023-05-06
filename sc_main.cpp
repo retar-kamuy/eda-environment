@@ -1,5 +1,5 @@
 #include <systemc.h>
-#include "Vaxilm_rd_ch.h"
+#include "Vaxilm.h"
 #include "verilated_vcd_sc.h"
 #include "test_axil.hpp"
 

@@ -1,4 +1,4 @@
-SRC			 = src/axilm_rd_ch.sv
+SRC			 = src/axilm.sv src/axilm_wr_ch.sv src/axilm_rd_ch.sv
 TB			 = tb/tb_top.sv tb/clk_rst_gen.sv
 SC_TB		 = sc_main.cpp test_axil.cpp
 INCDIR		 = +incdir+tb
@@ -6,7 +6,7 @@ INCDIR		 = +incdir+tb
 BUILD_DIR	 = work
 WLF			 = vsim.wlf
 TOP			 = $(BUILD_DIR).tb_top
-DUT			 = axilm_rd_ch
+DUT			 = axilm
 
 VLOG_FLAGS	 = -work $(BUILD_DIR) -l vlog.log
 VSIM_FLAGS	 = -work $(BUILD_DIR) -l vsim.log
@@ -22,7 +22,7 @@ SYSTEMC_HOME	 = /opt/systemc-2.3.3
 SYSTEMC_INCLUDE	 = $(SYSTEMC_HOME)/include
 SYSTEMC_LIBDIR	 = $(SYSTEMC_HOME)/lib-linux64
 
-SCGEN_TOP = axilm_rd_ch
+SCGEN_TOP = axilm
 
 $(BUILD_DIR):
 	vlib $(BUILD_DIR)
