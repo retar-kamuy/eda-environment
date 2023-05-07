@@ -3,13 +3,13 @@ TB			 = tb/tb_top.sv tb/clk_rst_gen.sv
 SC_TB		 = sc_main.cpp test_axil.cpp
 INCDIR		 = +incdir+tb
 
-BUILD_DIR	 = work
+BUILD_DIR	 = build
 WLF			 = vsim.wlf
 TOP			 = $(BUILD_DIR).tb_top
 DUT			 = axilm
 
-VLOG_FLAGS	 = -work $(BUILD_DIR) -l vlog.log
-VSIM_FLAGS	 = -work $(BUILD_DIR) -l vsim.log
+VLOG_FLAGS	 = -l vlog.log
+VSIM_FLAGS	 = -l vsim.log
 VSIM_FLAGS	+= -wlf $(WLF) -do "add wave -r /*; run -all; quit"
 
 VERILATOR_FLAGS	 = --sc --exe
@@ -24,25 +24,23 @@ SYSTEMC_LIBDIR	 = $(SYSTEMC_HOME)/lib-linux64
 
 SCGEN_TOP = axilm
 
-$(BUILD_DIR):
-	vlib $(BUILD_DIR)
-	vmap $(BUILD_DIR) $(BUILD_DIR)
+build_questa: $(SRC) $(TB)
+	vlib $@
+	vmap $@ $@
+	vlog -work $@ $(INCDIR) $(VLOG_FLAGS) $^
 
-build: $(SRC) $(TB)
-	vlog $(INCDIR) $(VLOG_FLAGS) $^
+test_questa: build_questa
+	vsim -c -work $< $(VSIM_FLAGS) $(TOP)
 
-run: build
-	vsim -c $(VSIM_FLAGS) $(TOP)
-
-testbench_verilator: $(SRC) $(SC_TB)
+V$(DUT): $(SRC) $(SC_TB)
 	verilator $(VERILATOR_FLAGS) -I$(SYSTEMC_INCLUDE) $(SRC) $(SC_TB)
-	$(MAKE) -j -C $(BUILD_DIR) -f V$(DUT).mk V$(DUT)
-	cp $(BUILD_DIR)/V$(DUT) $@
+	$(MAKE) -j -C $(BUILD_DIR) -f $@.mk $@
+	cp $(BUILD_DIR)/$@ .
 
-test_verilator: testbench_verilator
+test_verilator: V$(DUT)
 	./$<
 
-test_verilator_vcd: testbench_verilator
+test_verilator_vcd: V$(DUT)
 	./$< +trace
 
 V$(SCGEN_TOP).h: $(SRC)
@@ -59,4 +57,4 @@ test_questa:
 
 clean:
 #	del /q work *.log *.wlf
-	rm -rf work *.log *.wlf *.vcd testbench_verilator
+	rm -rf work *.log *.wlf *.vcd V$(DUT)

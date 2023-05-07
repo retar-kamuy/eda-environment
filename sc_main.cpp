@@ -22,7 +22,7 @@ int sc_main(int argc, char** argv) {
         Verilated::traceEverOn(true);
         tfp = new VerilatedVcdSc;
         top->dut->trace(tfp, 99);
-        tfp->open("testbench.vcd");
+        tfp->open("simx.vcd");
     }
 
     sc_start(-1, SC_NS);
