@@ -1,3 +1,5 @@
+#include <gtest/gtest.h>
+
 #include "test_axil.hpp"
 
 #ifdef MTI_SYSTEMC
