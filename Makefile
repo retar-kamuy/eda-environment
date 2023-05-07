@@ -33,7 +33,7 @@ test_questa: build_questa
 	vsim -c -work $< $(VSIM_FLAGS) $(TOP)
 
 V$(DUT): $(SRC) $(SC_TB)
-	verilator $(VERILATOR_FLAGS) -I$(SYSTEMC_INCLUDE) $(SRC) $(SC_TB)
+	verilator $(VERILATOR_FLAGS) -I$(SYSTEMC_INCLUDE) $(SRC) $(SC_TB) -LDFLAGS "-L/opt/googletest-1.13.0/lib -lgtest -lpthread" -CFLAGS "-I/opt/googletest-1.13.0/include"
 	$(MAKE) -j -C $(BUILD_DIR) -f $@.mk $@
 	cp $(BUILD_DIR)/$@ .
 
@@ -43,11 +43,18 @@ test_verilator: V$(DUT)
 test_verilator_vcd: V$(DUT)
 	./$< +trace
 
-V$(SCGEN_TOP).h: $(SRC)
-	vlib $(BUILD_DIR)
-	vmap $(BUILD_DIR) $(BUILD_DIR)
-	vlog -work $(BUILD_DIR) -l vlog.log -sv $^
-	scgenmod -bool -sc_uint V$(SCGEN_TOP) > $@
+cmake_verilator:
+	mkdir build
+	cd build
+	cmake -GNinja ..
+	ninja
+	./Vaxilm
+
+#V$(SCGEN_TOP).h: $(SRC)
+#	vlib $(BUILD_DIR)
+#	vmap $(BUILD_DIR) $(BUILD_DIR)
+#	vlog -work $(BUILD_DIR) -l vlog.log -sv $^
+#	scgenmod -bool -sc_uint V$(SCGEN_TOP) > $@
 
 test_questa:
 	sccom -g test_axil.cpp
