@@ -34,15 +34,45 @@ class test_axil:
     sc_signal<bool> RVALID;
     sc_signal<bool> RREADY;
     // Local Inerface
-    sc_signal<bool> USR_ENA;
-    sc_signal<uint32_t> USR_WSTB;
-    sc_signal<uint32_t> USR_ADDR;
-    sc_signal<uint32_t> USR_WDATA;
-    sc_signal<uint32_t> USR_RDATA;
-    sc_signal<uint32_t> USR_BRESP;
-    sc_signal<uint32_t> USR_RRESP;
+    sc_signal<bool> BUS_ENA;
+    sc_signal<uint32_t> BUS_WSTB;
+    sc_signal<uint32_t> BUS_ADDR;
+    sc_signal<uint32_t> BUS_WDATA;
+    sc_signal<uint32_t> BUS_RDATA;
+    sc_signal<uint32_t> BUS_BRESP;
+    sc_signal<uint32_t> BUS_RRESP;
 #else
-    sc_signal<sc_uint<4>> USR_WSTB;
+    sc_signal<sc_uint<32> > AWADDR;
+    sc_signal<sc_uint<3> > AWPROT;
+    sc_signal<bool> AWVALID;
+    sc_signal<bool> AWREADY;
+    // Write Data Channel
+    sc_signal<sc_uint<32> > WDATA;
+    sc_signal<sc_uint<4> > WSTRB;
+    sc_signal<bool> WVALID;
+    sc_signal<bool> WREADY;
+    // Write Response Channel
+    sc_signal<bool> BVALID;
+    sc_signal<bool> BREADY;
+    sc_signal<sc_uint<2> > BRESP;
+    // Read Address Channel
+    sc_signal<sc_uint<32> > ARADDR;
+    sc_signal<sc_uint<3> > ARPROT;
+    sc_signal<bool> ARVALID;
+    sc_signal<bool> ARREADY;
+    // Read Data Channel
+    sc_signal<sc_uint<32> > RDATA;
+    sc_signal<sc_uint<2> > RRESP;
+    sc_signal<bool> RVALID;
+    sc_signal<bool> RREADY;
+    // Local Inerface
+    sc_signal<bool> BUS_ENA;
+    sc_signal<sc_uint<4> > BUS_WSTB;
+    sc_signal<sc_uint<32> > BUS_ADDR;
+    sc_signal<sc_uint<32> > BUS_WDATA;
+    sc_signal<sc_uint<32> > BUS_RDATA;
+    sc_signal<sc_uint<2> > BUS_BRESP;
+    sc_signal<sc_uint<2> > BUS_RRESP;
 #endif  // MTI_SYSTEMC
 
     Vaxilm *dut;
@@ -79,13 +109,13 @@ class test_axil:
         dut->RRESP(RRESP);
         dut->RVALID(RVALID);
         dut->RREADY(RREADY);
-        dut->USR_ENA(USR_ENA);
-        dut->USR_WSTB(USR_WSTB);
-        dut->USR_ADDR(USR_ADDR);
-        dut->USR_WDATA(USR_WDATA);
-        dut->USR_RDATA(USR_RDATA);
-        dut->USR_BRESP(USR_BRESP);
-        dut->USR_RRESP(USR_RRESP);
+        dut->BUS_ENA(BUS_ENA);
+        dut->BUS_WSTB(BUS_WSTB);
+        dut->BUS_ADDR(BUS_ADDR);
+        dut->BUS_WDATA(BUS_WDATA);
+        dut->BUS_RDATA(BUS_RDATA);
+        dut->BUS_BRESP(BUS_BRESP);
+        dut->BUS_RRESP(BUS_RRESP);
 
         SC_THREAD(thread);
         SC_METHOD(clock_method);

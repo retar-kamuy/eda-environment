@@ -15,9 +15,9 @@ void test_axil::thread(void)   {
     wait(5 * ACLK.period());
 
     wait(aclk_posedge_event);
-    USR_ENA = 1;
+    BUS_ENA = 1;
     wait(aclk_posedge_event);
-    USR_ENA = 0;
+    BUS_ENA = 0;
 
     wait(10 * ACLK.period());
     sc_stop();

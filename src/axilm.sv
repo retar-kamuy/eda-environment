@@ -1,4 +1,8 @@
+`ifndef QUESTA
 module axilm (
+`else
+module Vaxilm (
+`endif
     // AXI4 Lite Interface
     input                   ARESETn,
     input                   ACLK,
@@ -27,13 +31,13 @@ module axilm (
     input                   RVALID,
     output  logic           RREADY,
     // Local Inerface
-    input                   USR_ENA,
-    input           [3:0]   USR_WSTB,
-    input           [31:0]  USR_ADDR,
-    input           [31:0]  USR_WDATA,
-    output  logic   [31:0]  USR_RDATA,
-    output  logic   [1:0]   USR_BRESP,
-    output  logic   [1:0]   USR_RRESP
+    input                   BUS_ENA,
+    input           [3:0]   BUS_WSTB,
+    input           [31:0]  BUS_ADDR,
+    input           [31:0]  BUS_WDATA,
+    output  logic   [31:0]  BUS_RDATA,
+    output  logic   [1:0]   BUS_BRESP,
+    output  logic   [1:0]   BUS_RRESP
 );
 
     axilm_wr_ch u_axilm_wr_ch (
@@ -50,11 +54,11 @@ module axilm (
         .BVALID,
         .BREADY,
         .BRESP,
-        .USR_ENA,
-        .USR_WSTB,
-        .USR_ADDR,
-        .USR_WDATA,
-        .USR_BRESP
+        .BUS_ENA,
+        .BUS_WSTB,
+        .BUS_ADDR,
+        .BUS_WDATA,
+        .BUS_BRESP
     );
 
     axilm_rd_ch u_axilm_rd_ch (
@@ -68,11 +72,11 @@ module axilm (
         .RRESP,
         .RVALID,
         .RREADY,
-        .USR_ENA,
-        .USR_WSTB,
-        .USR_ADDR,
-        .USR_RDATA,
-        .USR_RRESP
+        .BUS_ENA,
+        .BUS_WSTB,
+        .BUS_ADDR,
+        .BUS_RDATA,
+        .BUS_RRESP
     );
 
 endmodule

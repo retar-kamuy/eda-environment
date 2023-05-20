@@ -22,15 +22,13 @@ SYSTEMC_HOME	 = /opt/systemc-2.3.3
 SYSTEMC_INCLUDE	 = $(SYSTEMC_HOME)/include
 SYSTEMC_LIBDIR	 = $(SYSTEMC_HOME)/lib-linux64
 
-SCGEN_TOP = axilm
-
 build_questa: $(SRC) $(TB)
 	vlib $@
 	vmap $@ $@
 	vlog -work $@ $(INCDIR) $(VLOG_FLAGS) $^
 
-test_questa: build_questa
-	vsim -c -work $< $(VSIM_FLAGS) $(TOP)
+#test_questa: build_questa
+#	vsim -c -work $< $(VSIM_FLAGS) $(TOP)
 
 V$(DUT): $(SRC) $(SC_TB)
 	verilator $(VERILATOR_FLAGS) -I$(SYSTEMC_INCLUDE) $(SRC) $(SC_TB) -LDFLAGS "-L/opt/googletest-1.13.0/lib -lgtest -lpthread" -CFLAGS "-I/opt/googletest-1.13.0/include"
@@ -50,17 +48,15 @@ cmake_verilator:
 	ninja
 	./Vaxilm
 
-#V$(SCGEN_TOP).h: $(SRC)
-#	vlib $(BUILD_DIR)
-#	vmap $(BUILD_DIR) $(BUILD_DIR)
-#	vlog -work $(BUILD_DIR) -l vlog.log -sv $^
-#	scgenmod -bool -sc_uint V$(SCGEN_TOP) > $@
+V$(DUT).h: $(SRC)
+	vlog -l vlog.log -sv $^
+	scgenmod -bool -sc_uint V$(DUT) > $@
 
 test_questa:
-	sccom -g test_axil.cpp
-	sccom -link
-	vopt +acc test_axil -work $(BUILD_DIR) -o optdesign
-	vsim -c -wlf vsim.wlf -l vsim.log -do "add wave -r *; run -all; quit" $(BUILD_DIR).optdesign
+	sccom -g -L/opt/googletest-1.13.0/lib -lgtest -lpthread -I/opt/googletest-1.13.0/include sc_main.cpp test_axil.cpp
+#	sccom -link
+#	vopt +acc sc_main -o optdesign
+	vsim -c -wlf vsim.wlf -l vsim.log -do "add wave -r *; run -all; quit" work.sc_top
 
 clean:
 #	del /q work *.log *.wlf
