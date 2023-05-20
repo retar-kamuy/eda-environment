@@ -13,4 +13,5 @@ modelsim.ini
 # Verilator
 *.vcd
 V*.h
+V*
 testbench_verilator
