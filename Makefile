@@ -58,6 +58,13 @@ cmake_verilator:
 	ninja
 	./Vaxilm
 
+SRCS = ./uvm/tb_top.sv ./tb/clk_rst_gen.sv ./src/apb.sv
+TOP_MODULE = tb_top
+
+build:
+	xvlog -sv $(SRCS) -L uvm --include ./uvm
+	xelab $(TOP_MODULE) -L uvm -timescale 1ns/1ns
+
 clean:
 #	del /q work *.log *.wlf
 	rm -rf work *.log *.wlf *.vcd V$(DUT)

@@ -38,8 +38,8 @@ module Vaxilm_wr_ch (
 
     assign AWPROT = 3'b000;
 
-    logic bus_write_req;
-    assign bus_write_req = BUS_ENA & (|BUS_WSTB);
+    logic usr_write_req;
+    assign usr_write_req = BUS_ENA & (|BUS_WSTB);
 
     logic slv_addr_resp;
     assign slv_addr_resp = AWVALID & AWREADY;
@@ -56,9 +56,9 @@ module Vaxilm_wr_ch (
             BREADY <= 1'b0;
             BUS_BRESP <= 2'b00;
         end else
-            case(state)
+            case (state)
                 IDLE: begin
-                    if (bus_write_req) begin
+                    if (usr_write_req) begin
                         AWADDR <= BUS_ADDR;
                         AWVALID <= 1'b1;
                         WDATA <= BUS_WDATA;
@@ -114,7 +114,7 @@ module Vaxilm_wr_ch (
         else
             case (state)
                 IDLE:
-                    if (bus_write_req)
+                    if (usr_write_req)
                         if (AWREADY & WREADY)
                             state <= BREADY_ASSERT;
                         else if (AWREADY)

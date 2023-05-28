@@ -1,7 +1,7 @@
 `timescale 1ns / 1ns
 
 module clk_rst_gen #(
-    parameter CLK_PERIOD = 10
+    parameter CLK_PERIOD = 10ns
 ) (
     output logic RST_N,
     output logic CLK

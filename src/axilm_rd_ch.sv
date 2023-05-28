@@ -31,8 +31,8 @@ module Vaxilm_rd_ch (
 
     assign ARPROT = 3'b000;
 
-    logic bus_read_req;
-    assign bus_read_req = BUS_ENA & ~(|BUS_WSTB);
+    logic usr_read_req;
+    assign usr_read_req = BUS_ENA & ~(|BUS_WSTB);
 
     logic slv_addr_resp;
     assign slv_addr_resp = ARVALID & ARREADY;
@@ -47,9 +47,9 @@ module Vaxilm_rd_ch (
             BUS_RDATA <= 32'd0;
             BUS_RRESP <= 2'b00;
         end else
-            case(state)
+            case (state)
                 IDLE: begin
-                    if (bus_read_req) begin
+                    if (usr_read_req) begin
                         ARADDR <= BUS_ADDR;
                         ARVALID <= 1'b1;
                     end
@@ -89,7 +89,7 @@ module Vaxilm_rd_ch (
         else
             case (state)
                 IDLE:
-                    if (bus_read_req)
+                    if (usr_read_req)
                         if (ARREADY)
                             state <= RREADY_ASSERT;
                         else
