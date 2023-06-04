@@ -1,26 +1,26 @@
 `timescale 1ns / 1ns
 
 module clk_rst_gen #(
-    parameter CLK_PERIOD = 10ns
+  parameter CLK_PERIOD = 10ns
 ) (
-    output logic RST_N,
-    output logic CLK
+  output logic rst_n,
+  output logic clk
 );
 
-    initial begin
-        RST_N = 0;
+  initial begin
+    rst_n = 0;
 
-        wait(CLK);
+    wait(clk);
 
-        #(CLK_PERIOD * 5)
-        RST_N = 1;
+    #(CLK_PERIOD * 5)
+    rst_n = 1;
+  end
+
+  initial begin
+    clk = 0;
+    forever begin
+      #(CLK_PERIOD / 2) clk = ~clk;
     end
-
-    initial begin
-        CLK = 0;
-        forever begin
-            #(CLK_PERIOD / 2) CLK = ~CLK;
-        end
-    end
+  end
 
 endmodule

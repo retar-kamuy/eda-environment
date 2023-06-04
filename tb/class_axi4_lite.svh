@@ -3,12 +3,12 @@
 `timescale 1ns / 1ns
 
 class class_axi4_lite;
-    localparam CLK_PERIOD = 10ns;
+  localparam CLK_PERIOD = 10ns;
 
-    virtual axi4_lite_if _if;
+  virtual axi4_lite_if intf;
 
-    function void assign_vi (virtual interface axi4_lite_if vif);
-        _if = vif;
-    endfunction
+  function void assign_vi (virtual interface axi4_lite_if vif);
+    intf = vif;
+  endfunction
 
 endclass
