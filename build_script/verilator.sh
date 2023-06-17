@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-VERSION=5.010
+VERSION=5.012
 export CC=clang
 export CXX=clang++
 SYSTEMC_HOME=/opt/systemc-2.3.3
 SYSTEMC_INCLUDE=$SYSTEMC_HOME/include
 
-sudo apt-get install -y git perl python3 make autoconf g++ flex bison ccache help2man
+sudo apt-get install -y git perl python3 make autoconf clang flex bison ccache help2man
 sudo apt-get install -y libgoogle-perftools-dev numactl perl-doc
 sudo apt-get install -y libfl2
 sudo apt-get install -y libfl-dev
