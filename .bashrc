@@ -1,7 +1,7 @@
 export SYSTEMC_HOME=/opt/systemc-2.3.3
 export SYSTEMC_INCLUDE=$SYSTEMC_HOME/include
 export SYSTEMC_LIBDIR=$SYSTEMC_HOME/lib-linux64
-export VERILATOR_ROOT=/opt/verilator-5.010
+export VERILATOR_ROOT=/opt/verilator-5.012
 export PATH=/opt/ninja-1.11.1/bin:$SYSTEMC_HOME/bin:$VERILATOR_ROOT/bin:$PATH
 
 export LD_LIBRARY_PATH=$SYSTEMC_LIBDIR:$LD_LIBRARY_PATH

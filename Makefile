@@ -53,8 +53,8 @@ test_questa:
 # test_verilator_vcd: V$(DUT)
 #	./$< +trace
 
-build_verilator:
-	cmake -B $(BUILD_DIR) -GNinja .
+test_verilator:
+	cmake -B $(BUILD_DIR) -DVERILATOR_ARGS=--trace -GNinja .
 	ninja -C $(BUILD_DIR)
 	mv $(BUILD_DIR)/V$(DUT) V$(DUT)
 	./V$(DUT)
