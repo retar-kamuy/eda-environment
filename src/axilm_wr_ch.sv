@@ -21,11 +21,11 @@ module Vaxilm_wr_ch (
   output  logic         BREADY,
   input         [1:0]   BRESP,
   // Local Inerface
-  input                 bus_ena,
-  input         [3:0]   bus_wstb,
-  input         [31:0]  bus_addr,
-  input         [31:0]  bus_wdata,
-  output        [1:0]   bus_bresp
+  input                 BUS_ENA,
+  input         [3:0]   BUS_WSTB,
+  input         [31:0]  BUS_ADDR,
+  input         [31:0]  BUS_WDATA,
+  output        [1:0]   BUS_BRESP
 );
   enum logic [2:0] {
     IDLE                = 0,
@@ -39,7 +39,7 @@ module Vaxilm_wr_ch (
   assign AWPROT = 3'b000;
 
   logic usr_write_req;
-  assign usr_write_req = bus_ena & (|bus_wstb);
+  assign usr_write_req = BUS_ENA & (|BUS_WSTB);
 
   logic slv_addr_rsp;
   assign slv_addr_rsp = AWVALID & AWREADY;
@@ -54,15 +54,15 @@ module Vaxilm_wr_ch (
       AWVALID <= 1'b0;
       WVALID <= 1'b0;
       BREADY <= 1'b0;
-      bus_bresp <= 2'b00;
+      BUS_BRESP <= 2'b00;
     end else
       case (state)
         IDLE: begin
           if (usr_write_req) begin
-            AWADDR <= bus_addr;
+            AWADDR <= BUS_ADDR;
             AWVALID <= 1'b1;
-            WDATA <= bus_wdata;
-            WSTRB <= bus_wstb;
+            WDATA <= BUS_WDATA;
+            WSTRB <= BUS_WSTB;
             WVALID <= 1'b1;
           end else begin
             AWVALID <= 1'b0;
@@ -91,12 +91,12 @@ module Vaxilm_wr_ch (
           end
         BREADY_ASSERT:
           if (slv_response_rsp) begin
-            bus_bresp <= BRESP;
+            BUS_BRESP <= BRESP;
             BREADY <= 1'b0;
           end
         BVALID_WAIT:
           if (slv_response_rsp) begin
-            bus_bresp <= BRESP;
+            BUS_BRESP <= BRESP;
             BREADY <= 1'b0;
           end
         default: begin
@@ -104,7 +104,7 @@ module Vaxilm_wr_ch (
           AWVALID <= 1'b0;
           WVALID <= 1'b0;
           BREADY <= 1'b0;
-          bus_bresp <= 2'b00;
+          BUS_BRESP <= 2'b00;
         end
       endcase
 

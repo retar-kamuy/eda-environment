@@ -36,8 +36,8 @@ module axi4_lite_master (
 
     // Local Inerface
     output          BUS_WAIT,
-    input           USR_ENA,
-    input   [3:0]   USR_WSTB,
+    input           BUS_ENA,
+    input   [3:0]   BUS_WSTB,
     input   [31:0]  BUS_ADDR,
     input   [31:0]  BUS_WDATA,
     output  [31:0]  BUS_RDATA
@@ -75,14 +75,14 @@ module axi4_lite_master (
       end else begin
          case(state)
            S_IDLE: begin
-              if(USR_ENA) begin
-                 if(|USR_WSTB) begin
+              if(BUS_ENA) begin
+                 if(|BUS_WSTB) begin
                     state          <= S_WA_START;
                  end else begin
                     state          <= S_RA_START;
                  end
                  reg_adrs[31:0] <= BUS_ADDR[31:0];
-                 reg_wstb[3:0]  <= USR_WSTB;
+                 reg_wstb[3:0]  <= BUS_WSTB;
               end
               reg_awvalid   <= 1'b0;
               reg_arvalid   <= 1'b0;
@@ -152,8 +152,8 @@ module axi4_lite_master (
         .AXI_BREADY,
         .AXI_RVALID,
         .AXI_RREADY,
-        .USR_ENA,
-        .USR_WSTB,
+        .BUS_ENA,
+        .BUS_WSTB,
         .WRITE_STATE    ( write_state   ),
         .READ_STATE     ( read_state    )
     );

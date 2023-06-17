@@ -13,11 +13,12 @@ add_executable(${target} sc_main.cpp test_axil.cpp)
 
 include_directories(/opt/googletest-1.13.0/include)
 
+set(VERILATOR_ARGS CACHE STRING "")
+
 verilate(${target}
     SYSTEMC
     SOURCES src/axilm.sv src/axilm_rd_ch.sv src/axilm_wr_ch.sv
-    TRACE
-    VERILATOR_ARGS --Wno-lint --Wall -LDFLAGS "-L/opt/googletest-1.13.0/lib -lgtest -lpthread"
+    VERILATOR_ARGS --Wno-lint --Wall ${VERILATOR_ARGS} -LDFLAGS "-L/opt/googletest-1.13.0/lib -lgtest -lpthread"
 )
 
 verilator_link_systemc(${target})

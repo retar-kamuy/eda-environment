@@ -53,12 +53,20 @@ test_questa:
 # test_verilator_vcd: V$(DUT)
 #	./$< +trace
 
-cmake_verilator:
-	mkdir $(BUILD_DIR)
-	cd $(BUILD_DIR)
-	cmake -GNinja ..
-	ninja
-	./Vaxilm
+build_verilator:
+	cmake -B $(BUILD_DIR) -GNinja .
+	ninja -C $(BUILD_DIR)
+	mv $(BUILD_DIR)/V$(DUT) V$(DUT)
+	./V$(DUT)
+
+test_verilator_vcd:
+	cmake -B $(BUILD_DIR) -DVERILATOR_ARGS=--trace -GNinja .
+	ninja -C $(BUILD_DIR)
+	mv $(BUILD_DIR)/V$(DUT) V$(DUT)
+	./V$(DUT) +trace
 
 clean:
 	rm -rf work *.log *.wlf *.vcd V$(DUT)
+
+distclean: clean
+	rm -rf $(BUILD_DIR)

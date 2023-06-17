@@ -24,7 +24,7 @@ class SystemCFixture : public testing::Test {
             Verilated::traceEverOn(true);
             tfp = new VerilatedVcdSc;
             top->dut->trace(tfp, 99);
-            tfp->open("simx.vcd");
+            tfp->open("wave.vcd");
         }
     };
 

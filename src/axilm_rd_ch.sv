@@ -16,11 +16,11 @@ module Vaxilm_rd_ch (
   input                 RVALID,
   output  logic         RREADY,
   // Local Inerface
-  input                 bus_ena,
-  input         [3:0]   bus_wstb,
-  input         [31:0]  bus_addr,
-  output  logic [31:0]  bus_rdata,
-  output  logic [1:0]   bus_rresp
+  input                 BUS_ENA,
+  input         [3:0]   BUS_WSTB,
+  input         [31:0]  BUS_ADDR,
+  output  logic [31:0]  BUS_RDATA,
+  output  logic [1:0]   BUS_RRESP
 );
   enum logic [1:0] {
     IDLE          = 0,
@@ -32,7 +32,7 @@ module Vaxilm_rd_ch (
   assign ARPROT = 3'b000;
 
   logic usr_read_req;
-  assign usr_read_req = bus_ena & ~(|bus_wstb);
+  assign usr_read_req = BUS_ENA & ~(|BUS_WSTB);
 
   logic slv_addr_rsp;
   assign slv_addr_rsp = ARVALID & ARREADY;
@@ -44,13 +44,13 @@ module Vaxilm_rd_ch (
       ARADDR <= 32'd0;
       ARVALID <= 1'b0;
       RREADY <= 1'b0;
-      bus_rdata <= 32'd0;
-      bus_rresp <= 2'b00;
+      BUS_RDATA <= 32'd0;
+      BUS_RRESP <= 2'b00;
     end else
       case (state)
         IDLE: begin
           if (usr_read_req) begin
-            ARADDR <= bus_addr;
+            ARADDR <= BUS_ADDR;
             ARVALID <= 1'b1;
           end
           else
@@ -64,22 +64,22 @@ module Vaxilm_rd_ch (
           end
         RREADY_ASSERT:
           if (slv_data_rsp) begin
-            bus_rdata <= RDATA;
-            bus_rresp <= RRESP;
+            BUS_RDATA <= RDATA;
+            BUS_RRESP <= RRESP;
             RREADY <= 1'b0;
           end
         RVALID_WAIT:
           if (slv_data_rsp) begin
-            bus_rdata <= RDATA;
-            bus_rresp <= RRESP;
+            BUS_RDATA <= RDATA;
+            BUS_RRESP <= RRESP;
             RREADY <= 1'b0;
           end
         default: begin
           ARADDR <= 32'd0;
           ARVALID <= 1'b0;
           RREADY <= 1'b0;
-          bus_rdata <= 32'd0;
-          bus_rresp <= 2'b00;
+          BUS_RDATA <= 32'd0;
+          BUS_RRESP <= 2'b00;
         end
       endcase
 

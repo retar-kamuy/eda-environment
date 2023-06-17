@@ -31,13 +31,13 @@ module Vaxilm (
   input                 RVALID,
   output  logic         RREADY,
   // Local Inerface
-  input                 bus_ena,
-  input         [3:0]   bus_wstb,
-  input         [31:0]  bus_addr,
-  input         [31:0]  bus_wdata,
-  output  logic [31:0]  bus_rdata,
-  output  logic [1:0]   bus_bresp,
-  output  logic [1:0]   bus_rresp
+  input                 BUS_ENA,
+  input         [3:0]   BUS_WSTB,
+  input         [31:0]  BUS_ADDR,
+  input         [31:0]  BUS_WDATA,
+  output  logic [31:0]  BUS_RDATA,
+  output  logic [1:0]   BUS_BRESP,
+  output  logic [1:0]   BUS_RRESP
 );
 
   axilm_wr_ch u_axilm_wr_ch (
@@ -54,11 +54,11 @@ module Vaxilm (
     .BVALID,
     .BREADY,
     .BRESP,
-    .bus_ena,
-    .bus_wstb,
-    .bus_addr,
-    .bus_wdata,
-    .bus_bresp
+    .BUS_ENA,
+    .BUS_WSTB,
+    .BUS_ADDR,
+    .BUS_WDATA,
+    .BUS_BRESP
   );
 
   axilm_rd_ch u_axilm_rd_ch (
@@ -72,11 +72,11 @@ module Vaxilm (
     .RRESP,
     .RVALID,
     .RREADY,
-    .bus_ena,
-    .bus_wstb,
-    .bus_addr,
-    .bus_rdata,
-    .bus_rresp
+    .BUS_ENA,
+    .BUS_WSTB,
+    .BUS_ADDR,
+    .BUS_RDATA,
+    .BUS_RRESP
   );
 
 endmodule
