@@ -24,6 +24,18 @@ SYSTEMC_LIBDIR	 = $(SYSTEMC_HOME)/lib-linux64
 
 all: clean build test
 
+build:
+	@echo 'Building systemc:build'
+	@docker build --tag systemc:build . -f .docker/systemc/Dockerfile
+	@docker container create --name extract systemc:build
+	@docker container cp extract:/usr/local/systemc ./systemc
+	@docker container cp extract:/usr/local/cci ./cci
+	@docker container rm -f extract
+
+	@echo 'Building verilator:latest'
+	docker build --no-cache -t alexellis2/href-counter:latest .
+rm ./app
+
 # build_questa: $(SRC) $(TB)
 #	vlib $@
 #	vmap $@ $@
